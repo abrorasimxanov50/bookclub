@@ -292,31 +292,40 @@ export const Home = () => {
           <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-stone-100 dark:border-stone-800 shadow-sm relative overflow-hidden">
             <div className="flex justify-between items-center mb-5">
               <h3 className="font-bold text-stone-900 dark:text-white">Continue Reading</h3>
-              <span className="text-xs text-stone-400 font-semibold">See All &gt;</span>
+              <Link to="/reading" className="text-xs text-amber-600 hover:underline font-semibold">See All &gt;</Link>
             </div>
-            <div className="flex gap-4">
-              <div className="w-20 h-28 rounded-lg overflow-hidden shadow-md shrink-0">
-                <img src={books[1]?.cover} alt="Atomic Habits" className="w-full h-full object-cover" />
-              </div>
-              <div className="flex flex-col justify-center flex-1">
-                <h4 className="font-bold text-stone-900 dark:text-white text-sm">Atomic Habits</h4>
-                <p className="text-xs text-stone-500 mb-3">James Clear</p>
-                <div className="flex justify-between text-[10px] font-bold mb-1.5">
-                  <span className="text-stone-400">Page 142</span>
-                  <span className="text-amber-600">68%</span>
+            {books[0] ? (
+              <div className="flex gap-4">
+                <Link to={`/reader/${books[0].id}`} className="w-20 h-28 rounded-lg overflow-hidden shadow-md shrink-0 block">
+                  <img src={books[0].cover} alt={books[0].title} className="w-full h-full object-cover" />
+                </Link>
+                <div className="flex flex-col justify-center flex-1">
+                  <Link to={`/reader/${books[0].id}`} className="font-bold text-stone-900 dark:text-white text-sm hover:text-amber-600 transition-colors line-clamp-1">
+                    {books[0].title}
+                  </Link>
+                  <p className="text-xs text-stone-500 mb-3">{typeof books[0].author === 'object' ? books[0].author.name : books[0].author || 'Unknown Author'}</p>
+                  <div className="flex justify-between text-[10px] font-bold mb-1.5">
+                    <span className="text-stone-400">Page 142</span>
+                    <span className="text-amber-600">68%</span>
+                  </div>
+                  <div className="w-full bg-stone-100 dark:bg-stone-800 rounded-full h-1.5 overflow-hidden">
+                    <div className="bg-amber-500 h-full rounded-full" style={{ width: '68%' }}></div>
+                  </div>
                 </div>
-                <div className="w-full bg-stone-100 dark:bg-stone-800 rounded-full h-1.5 overflow-hidden">
-                  <div className="bg-amber-500 h-full rounded-full" style={{ width: '68%' }}></div>
-                </div>
               </div>
-            </div>
-            <button className="w-full mt-5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-white font-bold py-3 rounded-xl text-sm transition-all shadow-md shadow-amber-500/20">
+            ) : (
+              <p className="text-xs text-stone-400">No books currently reading</p>
+            )}
+            <Link
+              to={books[0] ? `/reader/${books[0].id}` : '/books'}
+              className="w-full mt-5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-white font-bold py-3 rounded-xl text-sm transition-all shadow-md shadow-amber-500/20 text-center block"
+            >
               Continue Reading &rarr;
-            </button>
+            </Link>
           </div>
 
           {/* Reading Goal */}
-          <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-stone-100 dark:border-stone-800 shadow-sm">
+          <Link to="/reading" className="block bg-white dark:bg-stone-900 rounded-3xl p-6 border border-stone-100 dark:border-stone-800 shadow-sm hover:border-amber-300 dark:hover:border-amber-700 transition-all">
             <h3 className="font-bold text-stone-900 dark:text-white mb-5">Reading Goal 2026</h3>
             <div className="flex items-center gap-6 mb-6">
                <div className="relative w-20 h-20 shrink-0">
@@ -331,12 +340,11 @@ export const Home = () => {
                <div>
                  <div className="font-bold text-stone-900 dark:text-white text-lg">24 / 35 books</div>
                  <div className="text-xs text-stone-500 mb-1">Your yearly goal</div>
-                 <div className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-600 bg-amber-50 dark:bg-amber-900/20 px-2 py-0.5 rounded text-amber-600">
+                 <div className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-600 bg-amber-50 dark:bg-amber-900/20 px-2 py-0.5 rounded">
                    🔥 18 day streak
                  </div>
                </div>
             </div>
-            {/* Mini Chart Mock */}
             <div className="flex items-end justify-between h-12 mt-4 px-2">
               {[40,60,30,80,50,90,70,40].map((h, i) => (
                 <div key={i} className="w-3 bg-amber-500/20 rounded-t-sm relative group cursor-pointer" style={{ height: '100%' }}>
@@ -347,13 +355,13 @@ export const Home = () => {
             <div className="flex justify-between text-[10px] text-stone-400 font-semibold mt-2 px-1">
               <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span>
             </div>
-          </div>
+          </Link>
 
           {/* Upcoming Challenges */}
           <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-stone-100 dark:border-stone-800 shadow-sm">
             <div className="flex justify-between items-center mb-5">
               <h3 className="font-bold text-stone-900 dark:text-white">Upcoming Challenges</h3>
-              <span className="text-xs text-stone-400 font-semibold">View All &gt;</span>
+              <Link to="/challenges" className="text-xs text-amber-600 hover:underline font-semibold">View All &gt;</Link>
             </div>
             <div className="space-y-4">
               {[
@@ -361,18 +369,18 @@ export const Home = () => {
                 { icon: '📖', title: 'Classic Literature Challenge', members: '5,423', time: '12 days left', color: 'bg-blue-100 text-blue-600' },
                 { icon: '🗺️', title: 'Fantasy World Journey', members: '3,156', time: '28 days left', color: 'bg-indigo-100 text-indigo-600' },
               ].map((c, i) => (
-                <div key={i} className="flex items-center gap-3">
+                <Link to="/challenges" key={i} className="flex items-center gap-3 group">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg shrink-0 ${c.color}`}>
                     {c.icon}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-bold text-sm text-stone-900 dark:text-white line-clamp-1">{c.title}</h4>
+                    <h4 className="font-bold text-sm text-stone-900 dark:text-white line-clamp-1 group-hover:text-amber-600 transition-colors">{c.title}</h4>
                     <p className="text-xs text-stone-500">{c.members} members</p>
                   </div>
                   <div className="text-[10px] font-bold text-amber-600 whitespace-nowrap bg-amber-50 dark:bg-amber-900/20 px-2 py-1 rounded">
                     {c.time}
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -381,7 +389,7 @@ export const Home = () => {
           <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-stone-100 dark:border-stone-800 shadow-sm">
             <div className="flex justify-between items-center mb-5">
               <h3 className="font-bold text-stone-900 dark:text-white">Popular Book Clubs</h3>
-              <span className="text-xs text-stone-400 font-semibold">View All &gt;</span>
+              <Link to="/clubs" className="text-xs text-amber-600 hover:underline font-semibold">View All &gt;</Link>
             </div>
             <div className="space-y-4">
               {[
@@ -397,9 +405,9 @@ export const Home = () => {
                     <h4 className="font-bold text-sm text-stone-900 dark:text-white line-clamp-1">{club.title}</h4>
                     <p className="text-xs text-stone-500">{club.members} members</p>
                   </div>
-                  <button className="text-xs font-bold text-amber-600 bg-amber-50 hover:bg-amber-100 dark:bg-amber-900/20 dark:hover:bg-amber-900/40 px-3 py-1.5 rounded-full transition-colors">
+                  <Link to="/clubs" className="text-xs font-bold text-amber-600 bg-amber-50 hover:bg-amber-100 dark:bg-amber-900/20 dark:hover:bg-amber-900/40 px-3 py-1.5 rounded-full transition-colors">
                     Join
-                  </button>
+                  </Link>
                 </div>
               ))}
             </div>
