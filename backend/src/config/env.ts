@@ -6,12 +6,12 @@ dotenv.config();
 const envSchema = z.object({
   PORT: z.string().default('5000'),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-  DATABASE_URL: z.string(),
-  JWT_ACCESS_SECRET: z.string(),
-  JWT_REFRESH_SECRET: z.string(),
+  DATABASE_URL: z.string().default('file:./dev.db'),
+  JWT_ACCESS_SECRET: z.string().default('super-secret-access-key-bookclub'),
+  JWT_REFRESH_SECRET: z.string().default('super-secret-refresh-key-bookclub'),
   JWT_ACCESS_EXPIRES_IN: z.string().default('15m'),
   JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
-  CORS_ORIGIN: z.string().default('http://localhost:5173'),
+  CORS_ORIGIN: z.string().default('*'),
   UPLOAD_DIR: z.string().default('./uploads'),
 });
 
