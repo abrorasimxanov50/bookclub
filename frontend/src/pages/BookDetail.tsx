@@ -13,7 +13,7 @@ export const BookDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { isFavorite, toggleFavorite } = useLibrary();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   
   const [book, setBook] = useState<Book | null>(null);
   const [similarBooks, setSimilarBooks] = useState<Book[]>([]);

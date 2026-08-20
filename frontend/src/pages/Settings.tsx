@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { User, Book, Bell, Monitor, Save, CheckCircle2, Image as ImageIcon } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { User, Book, Bell, Monitor, Save, CheckCircle2, Image as ImageIcon, Upload } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 
@@ -14,6 +14,7 @@ const PRESET_AVATARS = [
 
 export const Settings = () => {
   const { user, updateUser } = useAuth();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [activeTab, setActiveTab] = useState('account');
   const [name, setName] = useState(user?.name || '');
   const [username, setUsername] = useState(user?.username || '');
@@ -22,6 +23,23 @@ export const Settings = () => {
   const [avatar, setAvatar] = useState(user?.avatar || PRESET_AVATARS[0]);
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File is too large! Please choose an image smaller than 5MB.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (typeof reader.result === 'string') {
+          setAvatar(reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,7 +68,7 @@ export const Settings = () => {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 font-sans text-stone-900 dark:text-stone-100">
       <div className="mb-8">
         <h1 className="text-3xl font-bold font-serif">Account Settings</h1>
-        <p className="text-stone-600 dark:text-stone-400 mt-1">Manage your profile picture, preferences and reading goals</p>
+        <p className="text-stone-600 dark:text-stone-400 mt-1">Manage your profile picture, gallery uploads, preferences and goals</p>
       </div>
 
       <div className="flex flex-col md:flex-row gap-8">
@@ -93,33 +111,50 @@ export const Settings = () => {
                 )}
               </div>
 
-              {/* Avatar Selector */}
+              {/* Avatar Selector & Gallery Upload */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">Profile Avatar</label>
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-amber-500 shadow-md shrink-0 bg-stone-100">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-5">
+                  <div className="w-24 h-24 rounded-2xl overflow-hidden border-2 border-amber-500 shadow-md shrink-0 bg-stone-100 dark:bg-stone-800">
                     <img src={avatar} alt="Selected Avatar" className="w-full h-full object-cover" />
                   </div>
-                  <div>
-                    <p className="text-sm font-bold text-stone-900 dark:text-white">Choose a preset avatar or paste image URL:</p>
-                    <p className="text-xs text-stone-500">Your profile picture will be updated across the header, comments, and profile page!</p>
+                  
+                  <div className="space-y-2">
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      onChange={handleFileUpload}
+                      accept="image/*"
+                      className="hidden"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      className="px-4 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl font-bold text-xs transition-all shadow-md flex items-center gap-2"
+                    >
+                      <Upload size={14} /> Upload from Gallery / Device 📁
+                    </button>
+                    <p className="text-xs text-stone-500">Select any image file from your phone or PC gallery!</p>
                   </div>
                 </div>
 
                 {/* Preset Avatars */}
-                <div className="flex flex-wrap gap-3 mb-4">
-                  {PRESET_AVATARS.map((url, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      onClick={() => setAvatar(url)}
-                      className={`w-12 h-12 rounded-xl overflow-hidden border-2 transition-all ${
-                        avatar === url ? 'border-amber-500 scale-110 shadow-md' : 'border-stone-200 dark:border-stone-700 hover:border-amber-300'
-                      }`}
-                    >
-                      <img src={url} alt={`Avatar ${i+1}`} className="w-full h-full object-cover" />
-                    </button>
-                  ))}
+                <div className="mb-4">
+                  <p className="text-xs font-semibold text-stone-500 mb-2">Or choose from avatar presets:</p>
+                  <div className="flex flex-wrap gap-3">
+                    {PRESET_AVATARS.map((url, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => setAvatar(url)}
+                        className={`w-12 h-12 rounded-xl overflow-hidden border-2 transition-all ${
+                          avatar === url ? 'border-amber-500 scale-110 shadow-md' : 'border-stone-200 dark:border-stone-700 hover:border-amber-300'
+                        }`}
+                      >
+                        <img src={url} alt={`Avatar ${i+1}`} className="w-full h-full object-cover" />
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Custom Avatar URL Input */}
@@ -129,7 +164,7 @@ export const Settings = () => {
                     type="text"
                     value={avatar}
                     onChange={(e) => setAvatar(e.target.value)}
-                    placeholder="Or paste custom image URL..."
+                    placeholder="Or paste image URL..."
                     className="w-full pl-10 pr-4 py-2 border border-stone-300 dark:border-stone-700 rounded-xl bg-transparent text-stone-900 dark:text-stone-100 text-xs focus:ring-2 focus:ring-amber-500"
                   />
                 </div>
