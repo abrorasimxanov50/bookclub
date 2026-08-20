@@ -221,14 +221,18 @@ export const BookDetail = () => {
             {bookReviews.length > 0 ? (
               <div className="space-y-4">
                 {bookReviews.map(review => (
-                  <div key={review.id} className="bg-white dark:bg-stone-900 p-5 rounded-xl border border-stone-200 dark:border-stone-800">
+                  <div key={review.id} className="bg-white dark:bg-stone-900 p-5 rounded-2xl border border-stone-200 dark:border-stone-800">
                     <div className="flex justify-between items-start mb-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-9 h-9 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-700 text-sm font-bold">
-                          {review.userId[0].toUpperCase()}
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full overflow-hidden bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-700 text-sm font-bold shrink-0 border border-stone-200 dark:border-stone-700">
+                          {(review as any).userAvatar || (review.userId === user?.id && user?.avatar) ? (
+                            <img src={(review as any).userAvatar || user?.avatar} alt="User" className="w-full h-full object-cover" />
+                          ) : (
+                            (review.userId || 'U')[0].toUpperCase()
+                          )}
                         </div>
                         <div>
-                          <div className="font-medium text-sm">{review.userId}</div>
+                          <div className="font-bold text-sm text-stone-900 dark:text-white">{review.userId === user?.id ? user?.name : review.userId}</div>
                           <div className="text-xs text-stone-400">{new Date(review.date).toLocaleDateString()}</div>
                         </div>
                       </div>
@@ -240,7 +244,7 @@ export const BookDetail = () => {
                     </div>
                     <p className="text-stone-700 dark:text-stone-300 text-sm leading-relaxed mb-3">{review.content}</p>
                     <button className="flex items-center gap-1.5 text-xs text-stone-400 hover:text-amber-600 transition-colors">
-                      <Heart size={13} /> {review.likes} helpful
+                      <Heart size={13} /> {review.likes || 0} helpful
                     </button>
                   </div>
                 ))}
@@ -253,8 +257,10 @@ export const BookDetail = () => {
             )}
 
             {/* Write Review */}
-            <div className="mt-5 bg-white dark:bg-stone-900 rounded-xl p-5 border border-stone-200 dark:border-stone-800">
-              <h3 className="font-semibold mb-3 text-sm">Write a Review</h3>
+            <div className="mt-5 bg-white dark:bg-stone-900 rounded-2xl p-5 border border-stone-200 dark:border-stone-800">
+              <h3 className="font-bold mb-3 text-sm flex items-center gap-2">
+                {user?.avatar && <img src={user.avatar} className="w-6 h-6 rounded-full object-cover" />} Write a Review as <span className="text-amber-600">{user?.name || 'Reader'}</span>
+              </h3>
               <div className="flex gap-1 mb-3">
                 {[1,2,3,4,5].map(i => (
                   <Star key={i} size={22} className="text-stone-300 hover:text-amber-500 hover:fill-amber-500 cursor-pointer transition-colors" />
@@ -263,9 +269,9 @@ export const BookDetail = () => {
               <textarea
                 rows={3}
                 placeholder="Share your thoughts about this book..."
-                className="w-full text-sm px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-lg bg-stone-50 dark:bg-stone-800 resize-none focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full text-sm px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl bg-stone-50 dark:bg-stone-800 resize-none focus:outline-none focus:ring-2 focus:ring-amber-500"
               />
-              <button className="mt-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-sm rounded-lg font-medium transition-colors">
+              <button className="mt-2 px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white text-sm rounded-xl font-bold transition-all shadow-md">
                 Post Review
               </button>
             </div>

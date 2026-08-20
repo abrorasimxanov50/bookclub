@@ -50,8 +50,12 @@ const AccountDropdown: React.FC<{ onLogout: () => void; user: any }> = ({ onLogo
         onClick={() => setOpen(o => !o)}
         className="flex items-center gap-2 pl-1 pr-2 py-1.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
       >
-        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
-          {user?.name ? user.name[0].toUpperCase() : 'U'}
+        <div className="w-8 h-8 rounded-full overflow-hidden bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
+          {user?.avatar ? (
+            <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+          ) : (
+            user?.name ? user.name[0].toUpperCase() : 'U'
+          )}
         </div>
         <span className="hidden lg:block text-sm font-semibold text-stone-800 dark:text-stone-100 whitespace-nowrap">
           {user?.name || 'User'}
@@ -67,8 +71,12 @@ const AccountDropdown: React.FC<{ onLogout: () => void; user: any }> = ({ onLogo
           {/* User info */}
           <div className="px-4 py-4 border-b border-stone-100 dark:border-stone-800 bg-stone-50 dark:bg-stone-950">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white font-bold shrink-0">
-                {user?.name ? user.name[0].toUpperCase() : 'U'}
+              <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white font-bold shrink-0">
+                {user?.avatar ? (
+                  <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                ) : (
+                  user?.name ? user.name[0].toUpperCase() : 'U'
+                )}
               </div>
               <div className="min-w-0">
                 <div className="font-semibold text-stone-900 dark:text-stone-100 text-sm truncate">{user?.name || 'User'}</div>
