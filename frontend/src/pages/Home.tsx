@@ -5,11 +5,13 @@ import { challenges } from '../data/challenges';
 import { clubs } from '../data/clubs';
 import { bookService } from '../services/bookService';
 import type { Book } from '../types';
+import { useLibrary } from '../context/LibraryContext';
 
 export const Home = () => {
   const [featuredIdx, setFeaturedIdx] = useState(0);
   const [books, setBooks] = useState<Book[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('All Books');
+  const { isFavorite, toggleFavorite } = useLibrary();
 
   useEffect(() => {
     bookService.getAll().then(setBooks).catch(console.error);
@@ -209,9 +211,18 @@ export const Home = () => {
                 .filter(book => selectedCategory === 'All Books' || (book.category?.name || '').toLowerCase().includes(selectedCategory.toLowerCase()))
                 .slice(0, 8).map(book => (
                 <div key={book.id} className="bg-white dark:bg-stone-900 rounded-2xl p-3 border border-stone-100 dark:border-stone-800 shadow-sm hover:shadow-xl transition-all group relative">
-                  <div className="absolute top-5 right-5 z-10 w-8 h-8 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-stone-400 hover:text-red-500 transition-colors shadow-sm cursor-pointer">
-                    <Heart size={16} />
-                  </div>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      toggleFavorite(book.id);
+                    }}
+                    title={isFavorite(book.id) ? "Remove from Favorites" : "Add to Favorites"}
+                    className="absolute top-5 right-5 z-20 w-8 h-8 rounded-full bg-white/90 dark:bg-stone-800/90 backdrop-blur-md flex items-center justify-center transition-all shadow-sm hover:scale-110 cursor-pointer"
+                  >
+                    <Heart size={16} className={isFavorite(book.id) ? 'text-red-500 fill-red-500' : 'text-stone-400 hover:text-red-500'} />
+                  </button>
                   <Link to={`/books/${book.id}`}>
                     <div className="w-full aspect-[2/3] rounded-xl overflow-hidden mb-4 relative" style={{ backgroundColor: book.coverColor }}>
                       <img src={book.cover} alt={book.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
