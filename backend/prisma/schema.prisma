@@ -1,0 +1,308 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id             String    @id @default(uuid())
+  name           String
+  username       String    @unique
+  email          String    @unique
+  password       String
+  avatar         String?
+  bio            String?
+  role           String    @default("USER")
+  isVerified     Boolean   @default(false)
+  lastActive     DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  // Relations
+  libraryItems     LibraryItem[]
+  readingProgress  ReadingProgress[]
+  favorites        Favorite[]
+  reviews          Review[]
+  ratings          Rating[]
+  
+  challenges       Challenge[]       @relation("CreatedChallenges")
+  challengeMembers ChallengeMember[]
+  
+  clubs            Club[]            @relation("CreatedClubs")
+  clubMembers      ClubMember[]
+  
+  discussions      Discussion[]
+  comments         Comment[]
+  
+  followers        UserFollow[]      @relation("FollowingRelation")
+  following        UserFollow[]      @relation("FollowerRelation")
+  
+  activities       Activity[]
+  notifications    Notification[]
+}
+
+model Author {
+  id            String    @id @default(uuid())
+  name          String
+  slug          String    @unique
+  bio           String?
+  photo         String?
+  dateOfBirth   DateTime?
+  dateOfDeath   DateTime?
+  nationality   String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  books         Book[]
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  books       Book[]
+}
+
+model Book {
+  id            String   @id @default(uuid())
+  title         String
+  slug          String   @unique
+  description   String?
+  coverUrl      String?
+  pageCount     Int?
+  language      String?
+  publishedYear Int?
+  publisher     String?
+  
+  authorId      String
+  author        Author   @relation(fields: [authorId], references: [id])
+  
+  categoryId    String
+  category      Category @relation(fields: [categoryId], references: [id])
+  
+  averageRating Float    @default(0)
+  ratingCount   Int      @default(0)
+  reviewCount   Int      @default(0)
+  isPublished   Boolean  @default(true)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  libraryItems    LibraryItem[]
+  readingProgress ReadingProgress[]
+  favorites       Favorite[]
+  reviews         Review[]
+  ratings         Rating[]
+  chapters        BookContent[]
+}
+
+model LibraryItem {
+  id        String        @id @default(uuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookId    String
+  book      Book          @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  status    String        @default("WANT_TO_READ")
+  addedAt   DateTime      @default(now())
+
+  @@unique([userId, bookId])
+}
+
+model ReadingProgress {
+  id              String    @id @default(uuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookId          String
+  book            Book      @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  currentPage     Int       @default(0)
+  totalPages      Int
+  progressPercent Float     @default(0)
+  lastReadAt      DateTime?
+  completedAt     DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([userId, bookId])
+}
+
+model Favorite {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookId    String
+  book      Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, bookId])
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookId    String
+  book      Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // We are not making userId+bookId unique here as per strict prisma constraints if we want a separate rating table. 
+  // However, the prompt says "A user can have only one review per book."
+  @@unique([userId, bookId])
+}
+
+model Rating {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookId    String
+  book      Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  rating    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, bookId])
+}
+
+model Challenge {
+  id          String          @id @default(uuid())
+  title       String
+  description String?
+  goal        Int
+  period      String
+  startDate   DateTime
+  endDate     DateTime
+  coverUrl    String?
+  
+  createdById String
+  createdBy   User            @relation("CreatedChallenges", fields: [createdById], references: [id])
+  
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  members     ChallengeMember[]
+}
+
+model ChallengeMember {
+  id          String    @id @default(uuid())
+  challengeId String
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  progress    Int       @default(0)
+  joinedAt    DateTime  @default(now())
+  completedAt DateTime?
+
+  @@unique([challengeId, userId])
+}
+
+model Club {
+  id          String       @id @default(uuid())
+  name        String
+  slug        String       @unique
+  description String?
+  coverUrl    String?
+  
+  createdById String
+  createdBy   User         @relation("CreatedClubs", fields: [createdById], references: [id])
+  
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  members     ClubMember[]
+  discussions Discussion[]
+}
+
+model ClubMember {
+  id       String   @id @default(uuid())
+  clubId   String
+  club     Club     @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role     String   @default("MEMBER")
+  joinedAt DateTime @default(now())
+
+  @@unique([clubId, userId])
+}
+
+model Discussion {
+  id        String    @id @default(uuid())
+  clubId    String
+  club      Club      @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  content   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  comments  Comment[]
+}
+
+model Comment {
+  id           String     @id @default(uuid())
+  discussionId String
+  discussion   Discussion @relation(fields: [discussionId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content      String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model UserFollow {
+  id          String   @id @default(uuid())
+  followerId  String
+  follower    User     @relation("FollowerRelation", fields: [followerId], references: [id], onDelete: Cascade)
+  followingId String
+  following   User     @relation("FollowingRelation", fields: [followingId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@unique([followerId, followingId])
+}
+
+model Activity {
+  id        String       @id @default(uuid())
+  userId    String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String
+  data      String       // JSON string
+  createdAt DateTime     @default(now())
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String
+  title     String
+  message   String
+  data      String?  // JSON string
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model BookContent {
+  id            String   @id @default(uuid())
+  bookId        String
+  book          Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  chapterNumber Int
+  title         String
+  content       String   // Long text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([bookId, chapterNumber])
+}

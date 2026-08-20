@@ -1,0 +1,32 @@
+import type { Author } from '../types';
+
+export const authors: Author[] = [
+  { id: 'a1', name: 'James Clear', bio: 'Author of Atomic Habits, creator of the Habits Academy.', avatar: 'https://ui-avatars.com/api/?name=James+Clear', bookCount: 2, nationality: 'American' },
+  { id: 'a2', name: 'Paulo Coelho', bio: 'Brazilian lyricist and novelist, best known for The Alchemist.', avatar: 'https://ui-avatars.com/api/?name=Paulo+Coelho', bookCount: 30, nationality: 'Brazilian' },
+  { id: 'a3', name: 'J.K. Rowling', bio: 'British author, philanthropist, and creator of Harry Potter.', avatar: 'https://ui-avatars.com/api/?name=J+K+Rowling', bookCount: 15, nationality: 'British' },
+  { id: 'a4', name: 'J.R.R. Tolkien', bio: 'English writer and philologist, author of The Lord of the Rings.', avatar: 'https://ui-avatars.com/api/?name=J+R+R+Tolkien', bookCount: 25, nationality: 'British' },
+  { id: 'a5', name: 'Jane Austen', bio: 'English novelist known for her social commentary.', avatar: 'https://ui-avatars.com/api/?name=Jane+Austen', bookCount: 6, nationality: 'British' },
+  { id: 'a6', name: 'George Orwell', bio: 'English novelist and essayist, author of 1984.', avatar: 'https://ui-avatars.com/api/?name=George+Orwell', bookCount: 10, nationality: 'British' },
+  { id: 'a7', name: 'F. Scott Fitzgerald', bio: 'American novelist and essayist, author of The Great Gatsby.', avatar: 'https://ui-avatars.com/api/?name=F+Scott+Fitzgerald', bookCount: 5, nationality: 'American' },
+  { id: 'a8', name: 'Harper Lee', bio: 'American novelist best known for To Kill a Mockingbird.', avatar: 'https://ui-avatars.com/api/?name=Harper+Lee', bookCount: 2, nationality: 'American' },
+  { id: 'a9', name: 'Antoine de Saint-Exupéry', bio: 'French writer and aviator.', avatar: 'https://ui-avatars.com/api/?name=Antoine+de+Saint-Exupery', bookCount: 8, nationality: 'French' },
+  { id: 'a10', name: 'Morgan Housel', bio: 'Partner at Collaborative Fund and author of The Psychology of Money.', avatar: 'https://ui-avatars.com/api/?name=Morgan+Housel', bookCount: 3, nationality: 'American' },
+  { id: 'a11', name: 'Robert Kiyosaki', bio: 'American businessman and author of Rich Dad Poor Dad.', avatar: 'https://ui-avatars.com/api/?name=Robert+Kiyosaki', bookCount: 26, nationality: 'American' },
+  { id: 'a12', name: 'Stephen Covey', bio: 'American educator, author, and keynote speaker.', avatar: 'https://ui-avatars.com/api/?name=Stephen+Covey', bookCount: 12, nationality: 'American' },
+  { id: 'a13', name: 'Arthur Conan Doyle', bio: 'British writer and physician, creator of Sherlock Holmes.', avatar: 'https://ui-avatars.com/api/?name=Arthur+Conan+Doyle', bookCount: 60, nationality: 'British' },
+  { id: 'a14', name: 'Bram Stoker', bio: 'Irish author, best known for Dracula.', avatar: 'https://ui-avatars.com/api/?name=Bram+Stoker', bookCount: 15, nationality: 'Irish' },
+  { id: 'a15', name: 'Mary Shelley', bio: 'English novelist who wrote the Gothic novel Frankenstein.', avatar: 'https://ui-avatars.com/api/?name=Mary+Shelley', bookCount: 7, nationality: 'British' },
+  { id: 'a16', name: 'Lewis Carroll', bio: "English writer of children's fiction, notably Alice's Adventures in Wonderland.", avatar: 'https://ui-avatars.com/api/?name=Lewis+Carroll', bookCount: 11, nationality: 'British' },
+  { id: 'a17', name: 'Miguel de Cervantes', bio: 'Early Modern Spanish writer widely regarded as the greatest writer in the Spanish language.', avatar: 'https://ui-avatars.com/api/?name=Miguel+de+Cervantes', bookCount: 10, nationality: 'Spanish' },
+  { id: 'a18', name: 'Fyodor Dostoevsky', bio: 'Russian novelist, philosopher, and essayist.', avatar: 'https://ui-avatars.com/api/?name=Fyodor+Dostoevsky', bookCount: 15, nationality: 'Russian' },
+  { id: 'a19', name: 'Leo Tolstoy', bio: 'Russian writer who is regarded as one of the greatest authors of all time.', avatar: 'https://ui-avatars.com/api/?name=Leo+Tolstoy', bookCount: 20, nationality: 'Russian' },
+  { id: 'a20', name: 'Victor Hugo', bio: 'French poet, novelist, and dramatist of the Romantic movement.', avatar: 'https://ui-avatars.com/api/?name=Victor+Hugo', bookCount: 25, nationality: 'French' },
+  { id: 'a21', name: 'Alexandre Dumas', bio: 'French writer of historical adventure novels.', avatar: 'https://ui-avatars.com/api/?name=Alexandre+Dumas', bookCount: 30, nationality: 'French' },
+  { id: 'a22', name: 'Oscar Wilde', bio: 'Irish poet and playwright.', avatar: 'https://ui-avatars.com/api/?name=Oscar+Wilde', bookCount: 12, nationality: 'Irish' },
+  { id: 'a23', name: 'Markus Zusak', bio: 'Australian writer, best known for The Book Thief.', avatar: 'https://ui-avatars.com/api/?name=Markus+Zusak', bookCount: 6, nationality: 'Australian' },
+  { id: 'a24', name: 'Khaled Hosseini', bio: 'Afghan-American novelist and physician.', avatar: 'https://ui-avatars.com/api/?name=Khaled+Hosseini', bookCount: 4, nationality: 'Afghan-American' },
+  { id: 'a25', name: 'Suzanne Collins', bio: 'American television writer and author of The Hunger Games.', avatar: 'https://ui-avatars.com/api/?name=Suzanne+Collins', bookCount: 8, nationality: 'American' },
+  { id: 'a26', name: 'John Green', bio: 'American author and YouTube content creator.', avatar: 'https://ui-avatars.com/api/?name=John+Green', bookCount: 6, nationality: 'American' },
+  { id: 'a27', name: 'Frank Herbert', bio: 'American science fiction author best known for Dune.', avatar: 'https://ui-avatars.com/api/?name=Frank+Herbert', bookCount: 25, nationality: 'American' },
+  { id: 'a28', name: 'Abdulla Qodiriy', bio: "Uzbek playwright, poet, writer, and literary translator. Author of O'tkan Kunlar.", avatar: 'https://ui-avatars.com/api/?name=Abdulla+Qodiriy', bookCount: 5, nationality: 'Uzbek' }
+];

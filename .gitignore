@@ -1,0 +1,32 @@
+# dependencies
+node_modules/
+*/node_modules/
+
+# production / build
+dist/
+build/
+*/dist/
+*/build/
+
+# env files
+.env
+*.env
+*/.env
+
+# database
+*.db
+*.sqlite
+*.sqlite-journal
+*/prisma/*.db
+
+# logs
+*.log
+npm-debug.log*
+
+# system & IDE
+.DS_Store
+.vscode/
+.idea/
+
+# legacy backup folders
+server/
