@@ -35,6 +35,33 @@ export const getProfile = catchAsync(async (req: Request, res: Response) => {
   res.json(user);
 });
 
+export const updateProfile = catchAsync(async (req: AuthRequest, res: Response) => {
+  const { name, username, bio, avatar } = req.body;
+  const userId = req.user.id;
+
+  const updatedUser = await prisma.user.update({
+    where: { id: userId },
+    data: {
+      ...(name && { name }),
+      ...(username && { username }),
+      ...(bio !== undefined && { bio }),
+      ...(avatar !== undefined && { avatar }),
+    },
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      email: true,
+      role: true,
+      avatar: true,
+      bio: true,
+      createdAt: true,
+    }
+  });
+
+  res.json({ success: true, data: updatedUser });
+});
+
 export const followUser = catchAsync(async (req: AuthRequest, res: Response) => {
   const { id } = req.params;
   const currentUserId = req.user.id;
