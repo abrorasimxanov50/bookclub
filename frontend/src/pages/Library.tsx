@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BookOpen, Clock, Check, Heart, MoreVertical } from 'lucide-react';
-import { libraryService, LibraryItem } from '../services/libraryService';
+import { libraryService, type LibraryItem } from '../services/libraryService';
 import { useAuth } from '../context/AuthContext';
 
 export const Library = () => {
