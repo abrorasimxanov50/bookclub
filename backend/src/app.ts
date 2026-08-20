@@ -23,13 +23,17 @@ import homeRoutes from './routes/home.routes';
 import activityRoutes from './routes/activity.routes';
 import leaderboardRoutes from './routes/leaderboard.routes';
 import notificationRoutes from './routes/notification.routes';
+import { setupSwagger } from './swagger';
 
 const app = express();
 
 // Middlewares
 app.use(helmet());
 app.use(cors({
-  origin: env.CORS_ORIGIN,
+  origin: (origin, callback) => {
+    // Allow any origin dynamically to support credentials across different deploy domains
+    callback(null, true);
+  },
   credentials: true,
 }));
 app.use(morgan('dev'));
@@ -64,6 +68,9 @@ app.use('/api/activity', activityRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/notifications', notificationRoutes);
 
+// Setup Swagger before the catch-all 404 handler.
+setupSwagger(app);
+
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({
@@ -72,12 +79,7 @@ app.use((req, res) => {
   });
 });
 
-import { setupSwagger } from './swagger';
-
 // Global Error Handler
 app.use(errorHandler);
-
-// Setup Swagger UI
-setupSwagger(app);
 
 export default app;

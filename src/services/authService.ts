@@ -28,5 +28,11 @@ export const authService = {
     const userStr = localStorage.getItem('user');
     if (userStr) return JSON.parse(userStr);
     return null;
+  },
+
+  getMe: async () => {
+    const response = await api.get('/auth/me');
+    return response.data;
   }
 };
+

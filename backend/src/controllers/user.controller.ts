@@ -2,11 +2,12 @@ import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { catchAsync } from '../utils/catchAsync';
 import { AuthRequest } from '../middleware/auth.middleware';
+import { getRouteParam } from '../utils/routeParams';
 
 const prisma = new PrismaClient();
 
 export const getProfile = catchAsync(async (req: Request, res: Response) => {
-  const { username } = req.params;
+  const username = getRouteParam(req, 'username');
 
   const user = await prisma.user.findUnique({
     where: { username },
@@ -63,7 +64,7 @@ export const updateProfile = catchAsync(async (req: AuthRequest, res: Response) 
 });
 
 export const followUser = catchAsync(async (req: AuthRequest, res: Response) => {
-  const { id } = req.params;
+  const id = getRouteParam(req, 'id');
   const currentUserId = req.user.id;
 
   if (id === currentUserId) {
@@ -102,7 +103,7 @@ export const followUser = catchAsync(async (req: AuthRequest, res: Response) => 
 });
 
 export const unfollowUser = catchAsync(async (req: AuthRequest, res: Response) => {
-  const { id } = req.params;
+  const id = getRouteParam(req, 'id');
   const currentUserId = req.user.id;
 
   const existingFollow = await prisma.userFollow.findUnique({

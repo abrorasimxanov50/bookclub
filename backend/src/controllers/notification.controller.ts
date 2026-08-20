@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '../config/database';
 import { catchAsync } from '../utils/catchAsync';
+import { getRouteParam } from '../utils/routeParams';
 
 // Extend Request type to include user added by auth middleware
 interface AuthRequest extends Request {
@@ -20,7 +21,7 @@ export const getNotifications = catchAsync(async (req: AuthRequest, res: Respons
 });
 
 export const markAsRead = catchAsync(async (req: AuthRequest, res: Response) => {
-  const { id } = req.params;
+  const id = getRouteParam(req, 'id');
   
   await prisma.notification.update({
     where: { id },

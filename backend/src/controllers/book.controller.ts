@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../config/database';
+import { getRouteParam } from '../utils/routeParams';
 
 export const getBooks = async (req: Request, res: Response) => {
   try {
@@ -16,11 +17,12 @@ export const getBooks = async (req: Request, res: Response) => {
 
 export const getBookByIdOrSlug = async (req: Request, res: Response) => {
   try {
+    const bookParam = getRouteParam(req, 'id');
     const book = await prisma.book.findFirst({
       where: {
         OR: [
-          { id: req.params.id },
-          { slug: req.params.id }
+          { id: bookParam },
+          { slug: bookParam }
         ]
       },
       include: { author: true, category: true, reviews: { include: { user: true } } }

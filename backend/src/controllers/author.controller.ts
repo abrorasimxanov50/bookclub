@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../config/database';
+import { getRouteParam } from '../utils/routeParams';
 
 export const getAuthors = async (req: Request, res: Response) => {
   try {
@@ -10,7 +11,7 @@ export const getAuthors = async (req: Request, res: Response) => {
 
 export const getAuthorBySlug = async (req: Request, res: Response) => {
   try {
-    const author = await prisma.author.findUnique({ where: { slug: req.params.slug }, include: { books: true } });
+    const author = await prisma.author.findUnique({ where: { slug: getRouteParam(req, 'slug') }, include: { books: true } });
     if (!author) return res.status(404).json({ success: false, message: 'Not found' });
     res.json({ success: true, data: author });
   } catch (error) { res.status(500).json({ success: false, message: 'Server error' }); }

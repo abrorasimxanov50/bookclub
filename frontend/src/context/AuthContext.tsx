@@ -14,6 +14,30 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!localStorage.getItem('token'));
   const [user, setUser] = useState<any | null>(authService.getCurrentUser());
+  const [loading, setLoading] = useState<boolean>(!!localStorage.getItem('token'));
+
+  useEffect(() => {
+    const restoreSession = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const userData = await authService.getMe();
+          setUser((prev: any) => {
+            const updated = { ...prev, ...userData };
+            localStorage.setItem('user', JSON.stringify(updated));
+            return updated;
+          });
+          setIsAuthenticated(true);
+        } catch (error) {
+          console.error('Session restoration failed, logging out:', error);
+          logout();
+        }
+      }
+      setLoading(false);
+    };
+
+    restoreSession();
+  }, []);
 
   const login = (userData: any, token: string) => {
     setIsAuthenticated(true);

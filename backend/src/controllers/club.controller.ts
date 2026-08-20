@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '../config/database';
 import { AuthRequest } from '../middleware/auth.middleware';
+import { getRouteParam } from '../utils/routeParams';
 
 export const getClubs = async (req: Request, res: Response) => {
   try {
@@ -19,7 +20,7 @@ export const createClub = async (req: AuthRequest, res: Response) => {
 
 export const joinClub = async (req: AuthRequest, res: Response) => {
   try {
-    const member = await prisma.clubMember.create({ data: { clubId: req.params.id, userId: req.user.id } });
+    const member = await prisma.clubMember.create({ data: { clubId: getRouteParam(req, 'id'), userId: req.user.id } });
     res.status(201).json({ success: true, data: member });
   } catch (error) { res.status(500).json({ success: false, message: 'Server error' }); }
 };

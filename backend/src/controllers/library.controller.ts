@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '../config/database';
 import { AuthRequest } from '../middleware/auth.middleware';
+import { getRouteParam } from '../utils/routeParams';
 
 export const getLibrary = async (req: AuthRequest, res: Response) => {
   try {
@@ -23,7 +24,7 @@ export const addToLibrary = async (req: AuthRequest, res: Response) => {
 
 export const removeFromLibrary = async (req: AuthRequest, res: Response) => {
   try {
-    await prisma.libraryItem.delete({ where: { id: req.params.id } });
+    await prisma.libraryItem.delete({ where: { id: getRouteParam(req, 'id') } });
     res.json({ success: true, message: 'Removed' });
   } catch (error) { res.status(500).json({ success: false, message: 'Server error' }); }
 };

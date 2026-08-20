@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { PrismaClient } from '@prisma/client';
+import { env } from '../config/env';
 
 const prisma = new PrismaClient();
 
@@ -20,7 +21,8 @@ export const protect = async (req: AuthRequest, res: Response, next: NextFunctio
       return res.status(401).json({ message: 'Not authorized, no token' });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret') as any;
+    const decoded = jwt.verify(token, env.JWT_ACCESS_SECRET) as any;
+
 
     const user = await prisma.user.findUnique({
       where: { id: decoded.id },

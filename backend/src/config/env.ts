@@ -9,7 +9,7 @@ const envSchema = z.object({
   DATABASE_URL: z.string().default('file:./dev.db'),
   JWT_ACCESS_SECRET: z.string().default('super-secret-access-key-bookclub'),
   JWT_REFRESH_SECRET: z.string().default('super-secret-refresh-key-bookclub'),
-  JWT_ACCESS_EXPIRES_IN: z.string().default('15m'),
+  JWT_ACCESS_EXPIRES_IN: z.string().default('30d'),
   JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
   CORS_ORIGIN: z.string().default('*'),
   UPLOAD_DIR: z.string().default('./uploads'),

@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import { prisma } from '../config/database';
 import { AuthRequest } from '../middleware/auth.middleware';
+import { getRouteParam } from '../utils/routeParams';
 
 export const getBookReviews = async (req: Request, res: Response) => {
   try {
-    const reviews = await prisma.review.findMany({ where: { bookId: req.params.bookId }, include: { user: { select: { id: true, name: true, avatar: true } } } });
+    const reviews = await prisma.review.findMany({ where: { bookId: getRouteParam(req, 'bookId') }, include: { user: { select: { id: true, name: true, avatar: true } } } });
     res.json({ success: true, data: reviews });
   } catch (error) { res.status(500).json({ success: false, message: 'Server error' }); }
 };

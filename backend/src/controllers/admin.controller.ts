@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '../config/database';
 import { catchAsync } from '../utils/catchAsync';
+import { getRouteParam } from '../utils/routeParams';
 
 export const getDashboardStats = catchAsync(async (req: Request, res: Response) => {
   const [
@@ -60,7 +61,7 @@ export const getUsers = catchAsync(async (req: Request, res: Response) => {
 
 export const deleteUser = catchAsync(async (req: Request, res: Response) => {
   await prisma.user.delete({
-    where: { id: req.params.id }
+    where: { id: getRouteParam(req, 'id') }
   });
   res.json({ success: true, message: 'User deleted successfully' });
 });
