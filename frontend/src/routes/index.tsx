@@ -1,37 +1,47 @@
-import { lazy } from 'react';
+import { lazy, ComponentType } from 'react';
 import { createBrowserRouter, type RouteObject } from 'react-router-dom';
 import { MainLayout } from '../layouts/MainLayout';
 import { ReaderLayout } from '../layouts/ReaderLayout';
 import { AuthLayout } from '../layouts/AuthLayout';
 import { AdminLayout } from '../layouts/AdminLayout';
 
-const Home = lazy(() => import('../pages/Home'));
-const Discover = lazy(() => import('../pages/Discover'));
-const Categories = lazy(() => import('../pages/Categories'));
-const Books = lazy(() => import('../pages/Books'));
-const BookDetail = lazy(() => import('../pages/BookDetail'));
-const Reader = lazy(() => import('../pages/Reader'));
-const Library = lazy(() => import('../pages/Library'));
-const ReadingProgress = lazy(() => import('../pages/ReadingProgress'));
-const Favorites = lazy(() => import('../pages/Favorites'));
-const Challenges = lazy(() => import('../pages/Challenges'));
-const ChallengeDetail = lazy(() => import('../pages/ChallengeDetail'));
-const Clubs = lazy(() => import('../pages/Clubs'));
-const ClubDetail = lazy(() => import('../pages/ClubDetail'));
-const Community = lazy(() => import('../pages/Community'));
-const Leaderboard = lazy(() => import('../pages/Leaderboard'));
-const Profile = lazy(() => import('../pages/Profile'));
-const Settings = lazy(() => import('../pages/Settings'));
-const Login = lazy(() => import('../pages/Login'));
-const Register = lazy(() => import('../pages/Register'));
-const ForgotPassword = lazy(() => import('../pages/ForgotPassword'));
-const AdminDashboard = lazy(() => import('../pages/admin/AdminDashboard'));
-const AdminBooks = lazy(() => import('../pages/admin/AdminBooks'));
-const AdminUsers = lazy(() => import('../pages/admin/AdminUsers'));
-const AdminReviews = lazy(() => import('../pages/admin/AdminReviews'));
-const AdminChallenges = lazy(() => import('../pages/admin/AdminChallenges'));
-const AdminClubs = lazy(() => import('../pages/admin/AdminClubs'));
-const NotFound = lazy(() => import('../pages/NotFound'));
+const safeLazy = (importFn: () => Promise<{ default: ComponentType<any> }>) =>
+  lazy(async () => {
+    try {
+      return await importFn();
+    } catch (error) {
+      window.location.reload();
+      return { default: () => null };
+    }
+  });
+
+const Home = safeLazy(() => import('../pages/Home'));
+const Discover = safeLazy(() => import('../pages/Discover'));
+const Categories = safeLazy(() => import('../pages/Categories'));
+const Books = safeLazy(() => import('../pages/Books'));
+const BookDetail = safeLazy(() => import('../pages/BookDetail'));
+const Reader = safeLazy(() => import('../pages/Reader'));
+const Library = safeLazy(() => import('../pages/Library'));
+const ReadingProgress = safeLazy(() => import('../pages/ReadingProgress'));
+const Favorites = safeLazy(() => import('../pages/Favorites'));
+const Challenges = safeLazy(() => import('../pages/Challenges'));
+const ChallengeDetail = safeLazy(() => import('../pages/ChallengeDetail'));
+const Clubs = safeLazy(() => import('../pages/Clubs'));
+const ClubDetail = safeLazy(() => import('../pages/ClubDetail'));
+const Community = safeLazy(() => import('../pages/Community'));
+const Leaderboard = safeLazy(() => import('../pages/Leaderboard'));
+const Profile = safeLazy(() => import('../pages/Profile'));
+const Settings = safeLazy(() => import('../pages/Settings'));
+const Login = safeLazy(() => import('../pages/Login'));
+const Register = safeLazy(() => import('../pages/Register'));
+const ForgotPassword = safeLazy(() => import('../pages/ForgotPassword'));
+const AdminDashboard = safeLazy(() => import('../pages/admin/AdminDashboard'));
+const AdminBooks = safeLazy(() => import('../pages/admin/AdminBooks'));
+const AdminUsers = safeLazy(() => import('../pages/admin/AdminUsers'));
+const AdminReviews = safeLazy(() => import('../pages/admin/AdminReviews'));
+const AdminChallenges = safeLazy(() => import('../pages/admin/AdminChallenges'));
+const AdminClubs = safeLazy(() => import('../pages/admin/AdminClubs'));
+const NotFound = safeLazy(() => import('../pages/NotFound'));
 
 export const routes: RouteObject[] = [
   {
@@ -52,6 +62,7 @@ export const routes: RouteObject[] = [
       { path: 'clubs/:id', element: <ClubDetail /> },
       { path: 'community', element: <Community /> },
       { path: 'leaderboard', element: <Leaderboard /> },
+      { path: 'profile', element: <Profile /> },
       { path: 'profile/:username', element: <Profile /> },
       { path: 'settings', element: <Settings /> },
     ],
