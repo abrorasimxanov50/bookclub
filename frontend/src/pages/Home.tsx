@@ -9,9 +9,10 @@ import type { Book } from '../types';
 export const Home = () => {
   const [featuredIdx, setFeaturedIdx] = useState(0);
   const [books, setBooks] = useState<Book[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState('All Books');
 
   useEffect(() => {
-    bookService.getFeaturedBooks().then(setBooks).catch(console.error);
+    bookService.getAll().then(setBooks).catch(console.error);
   }, []);
 
   useEffect(() => {
@@ -163,11 +164,22 @@ export const Home = () => {
 
       {/* Categories Strip */}
       <div className="flex gap-3 overflow-x-auto pb-2 snap-x hide-scrollbar mx-4 sm:mx-0">
-        <button className="flex-shrink-0 bg-amber-500 text-stone-950 px-5 py-2 rounded-full font-bold text-sm flex items-center gap-2 shadow-md shadow-amber-500/20">
+        <button
+          onClick={() => setSelectedCategory('All Books')}
+          className={`flex-shrink-0 px-5 py-2 rounded-full font-bold text-sm flex items-center gap-2 shadow-md transition-all ${selectedCategory === 'All Books' ? 'bg-amber-500 text-stone-950 shadow-amber-500/20' : 'bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-700 dark:text-stone-300'}`}
+        >
           <span>🔥</span> All Books
         </button>
         {['Fiction', 'Fantasy', 'Mystery', 'Self Development', 'History', 'Science', 'Biography', 'Classic', 'Psychology'].map(cat => (
-          <button key={cat} className="flex-shrink-0 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-700 dark:text-stone-300 px-5 py-2 rounded-full font-semibold text-sm hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors flex items-center gap-2 shadow-sm">
+          <button
+            key={cat}
+            onClick={() => setSelectedCategory(cat)}
+            className={`flex-shrink-0 px-5 py-2 rounded-full font-semibold text-sm flex items-center gap-2 transition-all shadow-sm ${
+              selectedCategory === cat
+                ? 'bg-amber-500 text-stone-950 shadow-md shadow-amber-500/20 border border-amber-400'
+                : 'bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800'
+            }`}
+          >
             <span className="opacity-50">#</span> {cat}
           </button>
         ))}
@@ -193,7 +205,9 @@ export const Home = () => {
             </div>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
-              {books.slice(0, 4).map(book => (
+              {books
+                .filter(book => selectedCategory === 'All Books' || (book.category?.name || '').toLowerCase().includes(selectedCategory.toLowerCase()))
+                .slice(0, 8).map(book => (
                 <div key={book.id} className="bg-white dark:bg-stone-900 rounded-2xl p-3 border border-stone-100 dark:border-stone-800 shadow-sm hover:shadow-xl transition-all group relative">
                   <div className="absolute top-5 right-5 z-10 w-8 h-8 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-stone-400 hover:text-red-500 transition-colors shadow-sm cursor-pointer">
                     <Heart size={16} />
