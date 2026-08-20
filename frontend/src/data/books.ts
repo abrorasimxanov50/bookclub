@@ -60,5 +60,95 @@ export const books: Book[] = [
     id: '12', title: 'Rich Dad Poor Dad', authorId: 'Robert Kiyosaki', description: 'What the rich teach their kids about money that the poor and middle class do not!',
     cover: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&auto=format&fit=crop&q=80', coverColor: '#6366f1',
     genre: ['Non-Fiction', 'Self-Help'], rating: 4.5, reviewCount: 25000, pageCount: 336, language: 'English', publishedYear: 1997, publisher: 'Plata Publishing', isbn: '9781612680194', status: 'available'
+  },
+  {
+    id: '13', title: 'The 7 Habits of Highly Effective People', authorId: 'Stephen Covey', description: 'Powerful lessons in personal change.',
+    cover: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80', coverColor: '#dc2626',
+    genre: ['Self-Help', 'Non-Fiction'], rating: 4.6, reviewCount: 19000, pageCount: 381, language: 'English', publishedYear: 1989, publisher: 'Free Press', isbn: '9780743269513', status: 'available'
+  },
+  {
+    id: '14', title: 'A Study in Scarlet', authorId: 'Arthur Conan Doyle', description: 'The novel that introduced the famous detective Sherlock Holmes.',
+    cover: 'https://images.unsplash.com/photo-1509021436468-d510091216d2?w=600&auto=format&fit=crop&q=80', coverColor: '#78350f',
+    genre: ['Mystery', 'Classic'], rating: 4.2, reviewCount: 12000, pageCount: 188, language: 'English', publishedYear: 1887, publisher: 'Penguin', isbn: '9780140439083', status: 'available'
+  },
+  {
+    id: '15', title: 'Dracula', authorId: 'Bram Stoker', description: 'The famous gothic horror novel about a vampire from Transylvania.',
+    cover: 'https://images.unsplash.com/photo-1509281373149-e957c6296406?w=600&auto=format&fit=crop&q=80', coverColor: '#000000',
+    genre: ['Horror', 'Classic'], rating: 4.3, reviewCount: 16000, pageCount: 418, language: 'English', publishedYear: 1897, publisher: 'Penguin Classics', isbn: '9780141439846', status: 'available'
+  },
+  {
+    id: '16', title: 'Frankenstein', authorId: 'Mary Shelley', description: 'A young scientist creates a sapient creature in an unorthodox scientific experiment.',
+    cover: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80', coverColor: '#334155',
+    genre: ['Horror', 'Sci-Fi', 'Classic'], rating: 4.4, reviewCount: 14000, pageCount: 280, language: 'English', publishedYear: 1818, publisher: 'Penguin Classics', isbn: '9780141439471', status: 'available'
+  },
+  {
+    id: '17', title: "Alice's Adventures in Wonderland", authorId: 'Lewis Carroll', description: 'A young girl falls through a rabbit hole into a subterranean fantasy world.',
+    cover: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&auto=format&fit=crop&q=80', coverColor: '#db2777',
+    genre: ['Fantasy', 'Classic'], rating: 4.3, reviewCount: 15500, pageCount: 352, language: 'English', publishedYear: 1865, publisher: 'Penguin Classics', isbn: '9780141439761', status: 'available'
+  },
+  {
+    id: '18', title: 'Don Quixote', authorId: 'Miguel de Cervantes', description: 'The adventures of a noble from La Mancha named Alonso Quixano.',
+    cover: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&auto=format&fit=crop&q=80', coverColor: '#f59e0b',
+    genre: ['Classic', 'Fiction'], rating: 4.5, reviewCount: 13000, pageCount: 1072, language: 'English', publishedYear: 1605, publisher: 'Ecco', isbn: '9780060934347', status: 'available'
+  },
+  {
+    id: '19', title: 'Crime and Punishment', authorId: 'Fyodor Dostoevsky', description: 'The mental anguish and moral dilemmas of an impoverished ex-student in Saint Petersburg.',
+    cover: 'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&auto=format&fit=crop&q=80', coverColor: '#475569',
+    genre: ['Classic', 'Philosophy'], rating: 4.7, reviewCount: 21000, pageCount: 565, language: 'English', publishedYear: 1866, publisher: 'Vintage Classics', isbn: '9780679734505', status: 'available'
+  },
+  {
+    id: '20', title: 'War and Peace', authorId: 'Leo Tolstoy', description: 'Chronicles the French invasion of Russia and the impact of the Napoleonic era on Tsarist society.',
+    cover: 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=600&auto=format&fit=crop&q=80', coverColor: '#7c2d12',
+    genre: ['Classic', 'History'], rating: 4.5, reviewCount: 11000, pageCount: 1225, language: 'English', publishedYear: 1869, publisher: 'Vintage', isbn: '9781400079988', status: 'available'
+  },
+  {
+    id: '21', title: 'The Brothers Karamazov', authorId: 'Fyodor Dostoevsky', description: 'A passionate philosophical novel set in 19th-century Russia.',
+    cover: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80', coverColor: '#1e293b',
+    genre: ['Classic', 'Philosophy'], rating: 4.8, reviewCount: 14000, pageCount: 796, language: 'English', publishedYear: 1880, publisher: 'Farrar, Straus and Giroux', isbn: '9780374528379', status: 'available'
+  },
+  {
+    id: '22', title: 'Les Misérables', authorId: 'Victor Hugo', description: 'Follows the lives of several characters, particularly the struggles of ex-convict Jean Valjean.',
+    cover: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&auto=format&fit=crop&q=80', coverColor: '#b91c1c',
+    genre: ['Classic', 'Fiction'], rating: 4.6, reviewCount: 16000, pageCount: 1463, language: 'English', publishedYear: 1862, publisher: 'Signet Classics', isbn: '9780451419439', status: 'available'
+  },
+  {
+    id: '23', title: 'The Count of Monte Cristo', authorId: 'Alexandre Dumas', description: 'The story of a man wrongfully imprisoned who escapes, acquires a fortune, and gets revenge.',
+    cover: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&auto=format&fit=crop&q=80', coverColor: '#0f172a',
+    genre: ['Classic', 'Adventure'], rating: 4.8, reviewCount: 22000, pageCount: 1276, language: 'English', publishedYear: 1844, publisher: 'Penguin Classics', isbn: '9780140449266', status: 'available'
+  },
+  {
+    id: '24', title: 'The Picture of Dorian Gray', authorId: 'Oscar Wilde', description: 'A philosophical novel about a man whose portrait ages while he stays young.',
+    cover: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&auto=format&fit=crop&q=80', coverColor: '#831843',
+    genre: ['Classic', 'Horror'], rating: 4.5, reviewCount: 17500, pageCount: 254, language: 'English', publishedYear: 1890, publisher: 'Penguin Classics', isbn: '9780141439570', status: 'available'
+  },
+  {
+    id: '25', title: 'The Book Thief', authorId: 'Markus Zusak', description: 'A story narrated by Death, about a young girl living in Nazi Germany.',
+    cover: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&auto=format&fit=crop&q=80', coverColor: '#64748b',
+    genre: ['History', 'Fiction'], rating: 4.7, reviewCount: 38000, pageCount: 552, language: 'English', publishedYear: 2005, publisher: 'Knopf', isbn: '9780375842207', status: 'available'
+  },
+  {
+    id: '26', title: 'The Kite Runner', authorId: 'Khaled Hosseini', description: 'An unforgettable story of friendship between a wealthy boy and his servant.',
+    cover: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&auto=format&fit=crop&q=80', coverColor: '#f97316',
+    genre: ['Fiction', 'History'], rating: 4.6, reviewCount: 35000, pageCount: 371, language: 'English', publishedYear: 2003, publisher: 'Riverhead', isbn: '9781594631931', status: 'available'
+  },
+  {
+    id: '27', title: 'The Hunger Games', authorId: 'Suzanne Collins', description: 'In a dystopian future, teenagers are forced to fight to the death on live TV.',
+    cover: 'https://images.unsplash.com/photo-1618666012174-83b441c0bc76?w=600&auto=format&fit=crop&q=80', coverColor: '#fb923c',
+    genre: ['Sci-Fi', 'Young-Adult'], rating: 4.6, reviewCount: 42000, pageCount: 374, language: 'English', publishedYear: 2008, publisher: 'Scholastic', isbn: '9780439023481', status: 'available'
+  },
+  {
+    id: '28', title: 'The Fault in Our Stars', authorId: 'John Green', description: 'A heartbreaking story of two teenage cancer patients who fall in love.',
+    cover: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&auto=format&fit=crop&q=80', coverColor: '#38bdf8',
+    genre: ['Romance', 'Young-Adult'], rating: 4.5, reviewCount: 33000, pageCount: 313, language: 'English', publishedYear: 2012, publisher: 'Dutton Books', isbn: '9780525478812', status: 'available'
+  },
+  {
+    id: '29', title: 'Dune', authorId: 'Frank Herbert', description: 'A multi-layered story of politics, religion, ecology, and human emotion on a desert planet.',
+    cover: 'https://images.unsplash.com/photo-1509021436468-d510091216d2?w=600&auto=format&fit=crop&q=80', coverColor: '#d97706',
+    genre: ['Sci-Fi', 'Fantasy'], rating: 4.7, reviewCount: 27000, pageCount: 412, language: 'English', publishedYear: 1965, publisher: 'Ace Books', isbn: '9780441172719', status: 'available'
+  },
+  {
+    id: '30', title: "O'tkan Kunlar", authorId: 'Abdulla Qodiriy', description: 'A classic Uzbek novel detailing the life, love, and tragedy of Otabek and Kumush.',
+    cover: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80', coverColor: '#10b981',
+    genre: ['Classic', 'Romance', 'History'], rating: 4.9, reviewCount: 5000, pageCount: 400, language: 'Uzbek', publishedYear: 1925, publisher: 'Sharq', isbn: '9789943319080', status: 'available'
   }
 ];
