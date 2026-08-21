@@ -6,5 +6,7 @@ const router = Router();
 router.get('/', ctrl.getClubs);
 router.post('/', protect, ctrl.createClub);
 router.post('/:id/join', protect, ctrl.joinClub);
+router.put('/:id', protect, ctrl.updateClub);
+router.delete('/:id', protect, ctrl.deleteClub);
 
 export default router;

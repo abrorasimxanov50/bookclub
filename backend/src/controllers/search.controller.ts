@@ -1,5 +1,9 @@
 import { Request, Response } from 'express';
-import { prisma } from '../config/database';
+import Book from '../models/Book';
+import Author from '../models/Author';
+import Category from '../models/Category';
+import User from '../models/User';
+import Club from '../models/Club';
 import { catchAsync } from '../utils/catchAsync';
 
 export const globalSearch = catchAsync(async (req: Request, res: Response) => {
@@ -8,38 +12,24 @@ export const globalSearch = catchAsync(async (req: Request, res: Response) => {
     return res.status(400).json({ success: false, message: 'Query parameter q is required' });
   }
 
+  const searchRegex = new RegExp(q, 'i');
+
   const [books, authors, categories, users, clubs] = await Promise.all([
-    prisma.book.findMany({
-      where: {
-        OR: [
-          { title: { contains: q, mode: 'insensitive' } },
-          { description: { contains: q, mode: 'insensitive' } }
-        ]
-      },
-      take: 5
-    }),
-    prisma.author.findMany({
-      where: { name: { contains: q, mode: 'insensitive' } },
-      take: 5
-    }),
-    prisma.category.findMany({
-      where: { name: { contains: q, mode: 'insensitive' } },
-      take: 5
-    }),
-    prisma.user.findMany({
-      where: {
-        OR: [
-          { name: { contains: q, mode: 'insensitive' } },
-          { username: { contains: q, mode: 'insensitive' } }
-        ]
-      },
-      select: { id: true, name: true, username: true, avatar: true },
-      take: 5
-    }),
-    prisma.club.findMany({
-      where: { name: { contains: q, mode: 'insensitive' } },
-      take: 5
-    })
+    Book.find({
+      $or: [
+        { title: searchRegex },
+        { description: searchRegex }
+      ]
+    }).limit(5),
+    Author.find({ name: searchRegex }).limit(5),
+    Category.find({ name: searchRegex }).limit(5),
+    User.find({
+      $or: [
+        { name: searchRegex },
+        { username: searchRegex }
+      ]
+    }).select('id name username avatar').limit(5),
+    Club.find({ name: searchRegex }).limit(5)
   ]);
 
   res.json({

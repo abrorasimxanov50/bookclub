@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { prisma } from '../config/database';
+import Notification from '../models/Notification';
 import { catchAsync } from '../utils/catchAsync';
 import { getRouteParam } from '../utils/routeParams';
 
@@ -11,11 +11,9 @@ interface AuthRequest extends Request {
 export const getNotifications = catchAsync(async (req: AuthRequest, res: Response) => {
   const userId = req.user.id;
 
-  const notifications = await prisma.notification.findMany({
-    where: { userId },
-    orderBy: { createdAt: 'desc' },
-    take: 50
-  });
+  const notifications = await Notification.find({ userId })
+    .sort({ createdAt: -1 })
+    .limit(50);
 
   res.json({ success: true, data: notifications });
 });
@@ -23,10 +21,7 @@ export const getNotifications = catchAsync(async (req: AuthRequest, res: Respons
 export const markAsRead = catchAsync(async (req: AuthRequest, res: Response) => {
   const id = getRouteParam(req, 'id');
   
-  await prisma.notification.update({
-    where: { id },
-    data: { isRead: true }
-  });
+  await Notification.findByIdAndUpdate(id, { isRead: true });
 
   res.json({ success: true, message: 'Notification marked as read' });
 });
@@ -34,10 +29,10 @@ export const markAsRead = catchAsync(async (req: AuthRequest, res: Response) => 
 export const markAllAsRead = catchAsync(async (req: AuthRequest, res: Response) => {
   const userId = req.user.id;
   
-  await prisma.notification.updateMany({
-    where: { userId, isRead: false },
-    data: { isRead: true }
-  });
+  await Notification.updateMany(
+    { userId, isRead: false },
+    { isRead: true }
+  );
 
   res.json({ success: true, message: 'All notifications marked as read' });
 });

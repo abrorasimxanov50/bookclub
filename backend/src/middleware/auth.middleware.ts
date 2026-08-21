@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { PrismaClient } from '@prisma/client';
 import { env } from '../config/env';
-
-const prisma = new PrismaClient();
+import User from '../models/User';
 
 export interface AuthRequest extends Request {
   user?: any;
@@ -24,17 +22,7 @@ export const protect = async (req: AuthRequest, res: Response, next: NextFunctio
     const decoded = jwt.verify(token, env.JWT_ACCESS_SECRET) as any;
 
 
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.id },
-      select: {
-        id: true,
-        name: true,
-        username: true,
-        email: true,
-        role: true,
-        avatar: true,
-      }
-    });
+    const user = await User.findById(decoded.id).select('name username email role avatar');
 
     if (!user) {
       return res.status(401).json({ message: 'Not authorized, user not found' });
@@ -56,3 +44,4 @@ export const restrictTo = (...roles: string[]) => {
     next();
   };
 };
+

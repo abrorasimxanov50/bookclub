@@ -35,6 +35,7 @@ const Settings = safeLazy(() => import('../pages/Settings'));
 const Login = safeLazy(() => import('../pages/Login'));
 const Register = safeLazy(() => import('../pages/Register'));
 const ForgotPassword = safeLazy(() => import('../pages/ForgotPassword'));
+const OAuthCallback = safeLazy(() => import('../pages/OAuthCallback'));
 const AdminDashboard = safeLazy(() => import('../pages/admin/AdminDashboard'));
 const AdminBooks = safeLazy(() => import('../pages/admin/AdminBooks'));
 const AdminUsers = safeLazy(() => import('../pages/admin/AdminUsers'));
@@ -80,6 +81,7 @@ export const routes: RouteObject[] = [
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
       { path: 'forgot-password', element: <ForgotPassword /> },
+      { path: 'oauth/callback', element: <OAuthCallback /> },
     ],
   },
   {

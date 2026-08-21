@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { prisma } from '../config/database';
+import User from '../models/User';
 import { catchAsync } from '../utils/catchAsync';
 
 export const getLeaderboard = catchAsync(async (req: Request, res: Response) => {
@@ -8,27 +8,39 @@ export const getLeaderboard = catchAsync(async (req: Request, res: Response) => 
   // In a real app, this would calculate based on points or pages read within the date range.
   // For now, we'll order by the number of completed books.
   
-  const users = await prisma.user.findMany({
-    take: 50,
-    select: {
-      id: true,
-      name: true,
-      username: true,
-      avatar: true,
-      _count: {
-        select: {
-          libraryItems: {
-            where: { status: 'COMPLETED' }
-          }
-        }
+  const users = await User.aggregate([
+    {
+      $lookup: {
+        from: 'libraryitems',
+        let: { userId: '$_id' },
+        pipeline: [
+          { $match: { $expr: { $eq: ['$userId', '$$userId'] }, status: 'COMPLETED' } }
+        ],
+        as: 'completedBooks'
       }
     },
-    orderBy: {
-      libraryItems: {
-        _count: 'desc'
+    {
+      $addFields: {
+        booksCompleted: { $size: '$completedBooks' }
+      }
+    },
+    {
+      $sort: { booksCompleted: -1 }
+    },
+    {
+      $limit: 50
+    },
+    {
+      $project: {
+        id: '$_id',
+        name: 1,
+        username: 1,
+        avatar: 1,
+        booksCompleted: 1,
+        points: { $multiply: ['$booksCompleted', 150] }
       }
     }
-  });
+  ]);
 
   const formattedUsers = users.map((u, index) => ({
     rank: index + 1,
@@ -38,8 +50,8 @@ export const getLeaderboard = catchAsync(async (req: Request, res: Response) => 
       username: u.username,
       avatar: u.avatar
     },
-    booksCompleted: u._count.libraryItems,
-    points: u._count.libraryItems * 150 // mock points
+    booksCompleted: u.booksCompleted,
+    points: u.points
   }));
 
   res.json({ success: true, data: formattedUsers });

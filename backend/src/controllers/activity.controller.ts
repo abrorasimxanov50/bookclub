@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { prisma } from '../config/database';
+import Activity from '../models/Activity';
 import { catchAsync } from '../utils/catchAsync';
 
 export const getActivityFeed = catchAsync(async (req: Request, res: Response) => {
@@ -11,17 +11,15 @@ export const getActivityFeed = catchAsync(async (req: Request, res: Response) =>
   // For now, returning global activities.
   
   const [total, activities] = await Promise.all([
-    prisma.activity.count(),
-    prisma.activity.findMany({
-      skip,
-      take: limit,
-      orderBy: { createdAt: 'desc' },
-      include: {
-        user: {
-          select: { id: true, name: true, username: true, avatar: true }
-        }
-      }
-    })
+    Activity.countDocuments(),
+    Activity.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate({
+        path: 'userId',
+        select: 'id name username avatar'
+      })
   ]);
 
   res.json({

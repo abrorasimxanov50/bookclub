@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { register, login, getMe } from '../controllers/auth.controller';
+import { register, login, getMe, startOAuth, oauthCallback } from '../controllers/auth.controller';
 import { protect } from '../middleware/auth.middleware';
 
 const router = Router();
@@ -149,6 +149,42 @@ router.post('/login', login);
  *         description: User not found
  */
 router.get('/me', protect, getMe);
+
+/**
+ * @swagger
+ * /auth/{provider}:
+ *   get:
+ *     summary: Start Google or Facebook OAuth login
+ *     tags: [Auth]
+ *     parameters:
+ *       - in: path
+ *         name: provider
+ *         required: true
+ *         schema: { type: string, enum: [google, facebook] }
+ *     responses:
+ *       302: { description: Redirects to the provider account chooser }
+ */
+router.get('/:provider', startOAuth);
+
+/**
+ * @swagger
+ * /auth/{provider}/callback:
+ *   get:
+ *     summary: OAuth provider callback
+ *     tags: [Auth]
+ *     parameters:
+ *       - in: path
+ *         name: provider
+ *         required: true
+ *         schema: { type: string, enum: [google, facebook] }
+ *       - in: query
+ *         name: code
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       302: { description: Redirects back to the frontend with a JWT }
+ */
+router.get('/:provider/callback', oauthCallback);
 
 export default router;
 
